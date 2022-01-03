@@ -1,7 +1,9 @@
 package com.kodilla.battleships;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -11,15 +13,17 @@ import java.util.List;
 
 public class Board extends Parent {
     private final VBox cols = new VBox();
-    private final boolean computer = false;
-//    public int ships = 5;
+    private final boolean computer;
+    public int ships = 5;
 
 
-    public Board(boolean computer) {
+    public Board(boolean computer, EventHandler<? super MouseEvent> handler) {
+        this.computer = computer;
         for (int y = 0; y < 10; y++) {
             HBox rows = new HBox();
             for (int x = 0; x < 10; x++) {
                 Cell c = new Cell(50, 50, this);
+                c.setOnMouseClicked(handler);
                 rows.getChildren().add(c);
             }
             cols.getChildren().add(rows);
@@ -28,26 +32,26 @@ public class Board extends Parent {
     }
 
     public boolean placeShip(Ship ship, int x, int y) {
-        if (isFreeLocation(ship, x, y)) {
+        if (isLocationFree(ship, x, y)) {
             int length = ship.type;
 
             if (ship.vertical) {
                 for (int i = y; i < y + length; i++) {
                     Cell cell = getCell(x, i);
                     cell.ship = ship;
-                    //                if (!computer) {
-                    cell.setFill(Color.GREY);
-                    cell.setStroke(Color.DARKGRAY);
-                    //                }
+                    if (!computer) {
+                        cell.setFill(Color.GREY);
+                        cell.setStroke(Color.DARKGRAY);
+                    }
                 }
             } else {
                 for (int i = x; i < x + length; i++) {
                     Cell cell = getCell(i, y);
                     cell.ship = ship;
-                    //                if (!computer) {
-                    cell.setFill(Color.GREY);
-                    cell.setStroke(Color.DARKGRAY);
-                    //                }
+                    if (!computer) {
+                        cell.setFill(Color.GREY);
+                        cell.setStroke(Color.DARKGRAY);
+                    }
                 }
             }
             return true;
@@ -83,7 +87,7 @@ public class Board extends Parent {
         return x >= 0 && x < 10 && y >= 0 && y < 10;
     }
 
-    private boolean isFreeLocation(Ship ship, int x, int y) {
+    private boolean isLocationFree(Ship ship, int x, int y) {
         int length = ship.type;
 
         if (ship.vertical) {
