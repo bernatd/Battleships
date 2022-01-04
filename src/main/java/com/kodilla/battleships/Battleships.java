@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
@@ -30,6 +31,8 @@ public class Battleships extends Application {
         BorderPane root = new BorderPane();
         root.setBackground(background);
         root.setPrefSize(800,600);
+
+
 
         computerBoard = new Board(true, event -> {
             if (!running) return;
@@ -58,7 +61,20 @@ public class Battleships extends Application {
             if (shipsToPlace == 0) startGame();
         });
 
-        HBox hbox = new HBox(100, playerBoard, computerBoard);
+        Button startBtn = new Button("Start");
+        Button quitBtn = new Button("Quit");
+        startBtn.setMinWidth(100);
+        quitBtn.setMinWidth(100);
+        quitBtn.setOnAction(event -> {
+            //Quit
+            Stage stage = (Stage) quitBtn.getScene().getWindow();
+            stage.close();
+             });
+
+        VBox vbox = new VBox(20,startBtn, quitBtn);
+        vbox.setAlignment(Pos.CENTER);
+
+        HBox hbox = new HBox(50, playerBoard, vbox, computerBoard);
         hbox.setAlignment(Pos.CENTER);
         root.setCenter(hbox);
 
