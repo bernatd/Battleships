@@ -35,6 +35,7 @@ public class Battleships extends Application {
             if (!running) return;
 
             Cell cell = (Cell) event.getSource();
+
             if (cell.wasShot) return;
             computerTurn = !cell.shoot();
 
@@ -50,22 +51,11 @@ public class Battleships extends Application {
             if (running) return;
 
             Cell cell = (Cell) event.getSource();
-//            int type = shipsToPlace;
-            System.out.println(cell);
-            if (playerBoard.placeShip(new Ship(shipsToPlace, true), cell.x, cell.y)) {
-//                if (--shipsToPlace == 0) {startGame();}
+
+            if (playerBoard.placeShip(new Ship(shipsToPlace, event.getButton() == MouseButton.PRIMARY), cell.x, cell.y)) {
                 --shipsToPlace;
             }
             if (shipsToPlace == 0) startGame();
-            /*while (type > 0) {
-                int x = random.nextInt(10);
-                int y = random.nextInt(10);
-
-                if (playerBoard.placeShip(new Ship(type, Math.random() < 0.5), x, y)) {
-                    type--;
-                }
-            }
-            startGame();*/
         });
 
         HBox hbox = new HBox(100, playerBoard, computerBoard);

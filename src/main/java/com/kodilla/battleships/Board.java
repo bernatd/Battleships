@@ -22,7 +22,7 @@ public class Board extends Parent {
         for (int y = 0; y < 10; y++) {
             HBox rows = new HBox();
             for (int x = 0; x < 10; x++) {
-                Cell c = new Cell(50, 50, this);
+                Cell c = new Cell(x, y, this);
                 c.setOnMouseClicked(handler);
                 rows.getChildren().add(c);
             }

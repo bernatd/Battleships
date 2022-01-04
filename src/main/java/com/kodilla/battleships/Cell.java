@@ -8,7 +8,7 @@ public class Cell extends Rectangle {
         public Ship ship = null;
         public boolean wasShot = false;
 
-        private Board board;
+        private final Board board;
 
         public Cell(int x, int y, Board board) {
             super(50, 50);
